@@ -17,7 +17,7 @@ from flask import Flask
 def create_app(test_config=None):
     # Informs the name of the current module & its location
     # Communicates config files are relative to the instance folder
-    # (the instance folder holds data that should not be committed
+    # (the instance folder holds config data that should not be committed
     # to the repostitory--secrets, db files, etc.)
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
