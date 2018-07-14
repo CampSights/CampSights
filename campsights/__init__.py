@@ -31,6 +31,7 @@ def create_app(test_config=None):
     if test_config is None:
         # If we are not testing, load the config for the instance
         app.config.from_pyfile('config.py', silent=True)
+
     else:
         # If a test config has been passed in, load that
         app.config.from_mapping(test_config)
