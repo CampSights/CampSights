@@ -16,4 +16,4 @@ def testing_geocode_library():
     api = Geocode()
     # returns None if empty string, empty list if invalid search criteria,
     # location if successful
-    return api.query_api_for_location_by_name('*&^')
+    return api.query_api_for_location_by_name('Portland, Or')

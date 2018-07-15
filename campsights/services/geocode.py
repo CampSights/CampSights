@@ -19,7 +19,7 @@ class Geocode():
         if zipcode or zipcode is not None:
             try:
                 geocode_result = self.client.geocode(zipcode)
-                return str(parse_location_for_coordinates(geocode_result))
+                return self.parse_location_for_coordinates(geocode_result)
             except Exception as e:
                 print('Error: {}'.format(str(e)))
 
@@ -29,11 +29,11 @@ class Geocode():
         if name or name is not None:
             try:
                 geocode_result = self.client.geocode(name)
-                return str(parse_location_for_coordinates(geocode_result))
+                return self.parse_location_for_coordinates(geocode_result)
             except Exception as e:
                 print('Error: {}'.format(str(e)))
 
-        return 'None'
+        return None
 
     def parse_location_for_coordinates(self, result):
-        return str(result2[0]['geometry']['location'])
+        return str(result[0]['geometry']['location'])
