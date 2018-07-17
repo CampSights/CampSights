@@ -19,17 +19,17 @@ def get_coordinates_by_name():
         state = sanitize_input_string(request.form['state'])
 
         if not city:
-            abort(400, 'Please provide a city and state. 1')
+            abort(400, 'Please provide a city and state.')
 
         if not state:
-            abort(400, 'Please provide a city and state. 2')
+            abort(400, 'Please provide a city and state.')
 
         api = Geocode()
         name = "{0}, {1}".format(city, state)
         coordinates = api.query_api_for_coordinates_by_name(name)
 
         if coordinates is None:
-            abort(400, 'Please provide a city and state. 3')
+            abort(400, 'Please provide a city and state.')
 
         return jsonify(coordinates)
 
