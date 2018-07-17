@@ -9,6 +9,7 @@ flask = "*"
 "autopep8" = "*"
 requests = "*"
 python-dotenv = "*"
+googlemaps = "*"
 
 [dev-packages]
 

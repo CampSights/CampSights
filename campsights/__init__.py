@@ -47,4 +47,8 @@ def create_app(test_config=None):
     def success():
         return 'Small Victory!'
 
+    # Register the blueprints created for app
+    from campsights import coordinates
+    app.register_blueprint(coordinates.bp)
+
     return app
