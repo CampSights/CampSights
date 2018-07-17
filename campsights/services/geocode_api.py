@@ -15,25 +15,39 @@ class Geocode():
     def __init__(self):
         self.client = googlemaps.Client(key=current_app.config['GEO_KEY'])
 
-    def query_api_for_location_by_zipcode(self, zipcode):
+    def query_api_for_coordinates_by_zipcode(self, zipcode):
         if zipcode or zipcode is not None:
             try:
                 geocode_result = self.client.geocode(zipcode)
-                return self.parse_location_for_coordinates(geocode_result)
+                return self.parse_for_address_and_coordinates(geocode_result)
             except Exception as e:
                 print('Error: {}'.format(str(e)))
 
         return None
 
-    def query_api_for_location_by_name(self, name):
+    def query_api_for_coordinates_by_name(self, name):
         if name or name is not None:
             try:
                 geocode_result = self.client.geocode(name)
-                return self.parse_location_for_coordinates(geocode_result)
+                return self.parse_for_address_and_coordinates(geocode_result)
             except Exception as e:
                 print('Error: {}'.format(str(e)))
 
         return None
 
-    def parse_location_for_coordinates(self, result):
-        return str(result[0]['geometry']['location'])
+    def parse_for_address_and_coordinates(self, result):
+        return {'address': self.parse_result_for_formatted_address(result),
+                'coordinates': self.parse_result_for_coordinates(result)
+                }
+
+    def parse_result_for_coordinates(self, result):
+        if result:
+            return result[0]['geometry']['location']
+
+        return result
+
+    def parse_result_for_formatted_address(self, result):
+        if result:
+            return result[0]['formatted_address']
+
+        return result
