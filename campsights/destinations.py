@@ -6,7 +6,7 @@
 from flask import (
     Blueprint, request, url_for, abort, jsonify
 )
-from campsights.services.ridb_api import RIDB
+from campsights.services.destinations_api import Destinations
 from campsights.common import sanitize_input_string
 
 bp = Blueprint('destinations', __name__)
@@ -29,11 +29,38 @@ def get_list_of_campgrounds_in_provided_radius():
         if not lng:
             abort(400, 'Error: Missing longitude in cooridnates.')
 
-        api = RIDB()
-        destinations = api.query_api_for_all_campgrounds_in_radius(
+        api = Destinations()
+        campgrounds = api.query_api_for_all_campgrounds_in_radius(
             lat, lng, radius)
-        if destinations is None:
+        if campgrounds is None:
             abort(400, 'Error: Request failed.'
                   'Was a latitude & longitude provided?')
 
-    return destinations
+    return campgrounds
+
+
+@bp.route('/destinations/trails', methods=['GET'])
+def get_list_of_trails_in_provided_radius():
+    # TODO: client application will uses requests package
+    # switch back to request.form once implemented.
+
+    # coordinates = request.form['coordinates']**
+    coordinates = request.json['coordinates']
+    if coordinates:
+        lat = coordinates['lat']
+        lng = coordinates['lng']
+        # radius = request.form['radius']**
+        radius = request.json['radius']
+        if not lat:
+            abort(400, 'Error: Missing latitude in coordinates.')
+        if not lng:
+            abort(400, 'Error: Missing longitude in cooridnates.')
+
+        api = Destinations()
+        trails = api.query_api_for_all_trails_in_radius(
+            lat, lng, radius)
+        if trails is None:
+            abort(400, 'Error: Request failed.'
+                  'Was a latitude & longitude provided?')
+
+    return trails
