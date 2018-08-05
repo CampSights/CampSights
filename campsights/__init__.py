@@ -50,5 +50,7 @@ def create_app(test_config=None):
     # Register the blueprints created for app
     from campsights import coordinates
     app.register_blueprint(coordinates.bp)
+    from campsights import destinations
+    app.register_blueprint(destinations.bp)
 
     return app
