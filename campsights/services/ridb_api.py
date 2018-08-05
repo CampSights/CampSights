@@ -12,19 +12,26 @@ class RIDB():
         self.base_url = 'https://ridb.recreation.gov/api/v1/'
         self.key = current_app.config['RIDB_KEY']
 
-    def query_api_for_all_campgrounds_in_radius(self, coordinates, radius):
-        if coordinates and radius:
-            lat = 'latitude=' + str(coordinates['lat'])
-            lng = 'longitude=' + str(coordinates['lng'])
-            rad = 'radius=' + str(radius)
+    def query_api_for_all_campgrounds_in_radius(self, lat, lng, radius):
+        if lat and lng:
+            payload = {
+                'latitude': lat,
+                'longitude': lng,
+                'radius': radius,
+                'activity': 'camping',
+                'apikey': self.key
+            }
             try:
-                # response = requests.get(
-                #     self.base_url + 'facilities?' + lat + lng + rad + self.key)
-                # return response
                 response = requests.get(
-                    self.base_url + 'facilities/?query=redrock&apikey='+self.key)
+                    self.base_url + 'facilities/', params=payload)
                 return response
             except Exception as e:
                 print('Error: {}'.format(str(e)))
 
         return None
+
+    def verify_lat_and_lng_exist(self, coordinates):
+        if coordinates['lat'] and coordinates['lng']:
+            return true
+
+        return false
