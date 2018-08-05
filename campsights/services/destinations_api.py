@@ -34,7 +34,7 @@ class Destinations():
 
         return None
 
-    # Consumes Hiking Prokect api to retrieve campgrounds within a given radius of
+    # Consumes Hiking Project api to retrieve campgrounds within a given radius of
     # a latitude & longitude
     def query_api_for_all_trails_in_radius(self, lat, lng, radius):
         if lat and lng:
