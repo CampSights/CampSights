@@ -31,7 +31,7 @@ def get_list_of_campgrounds_in_provided_radius():
 
         api = Destinations()
         campgrounds = api.query_api_for_all_campgrounds_in_radius(
-            lat, lng, radius)
+            lat, lng, radius, 10)
         if campgrounds is None:
             abort(400, 'Error: Request failed.'
                   'Was a latitude & longitude provided?')
@@ -64,3 +64,32 @@ def get_list_of_trails_in_provided_radius():
                   'Was a latitude & longitude provided?')
 
     return trails
+
+
+@bp.route('/destinations/trail', methods=['GET'])
+def get_specified_trail():
+    # TODO: client application will uses requests package
+    # switch back to request.form once implemented.
+
+    # coordinates = request.form['coordinates']**
+    coordinates = request.json['coordinates']
+    if coordinates:
+        lat = coordinates['lat']
+        lng = coordinates['lng']
+        # trail_name = request.form['trail_name']**
+        trail_name = sanitize_input_string(request.json['trail_name'])
+
+        if not lat:
+            abort(400, 'Error: Missing latitude in coordinates.')
+        if not lng:
+            abort(400, 'Error: Missing longitude in cooridnates.')
+        if not trail_name:
+            abort(400, 'Error: Missing name of trail to lookup.')
+
+        api = Destinations()
+        trail = api.query_api_for_specified_trail(lat, lng, trail_name)
+        if trail is None:
+            abort(400, 'Error: Request failed.'
+                  'Could not find results for specified trail')
+
+    return jsonify(trail)

@@ -12,8 +12,8 @@ from campsights.common import sanitize_input_string
 bp = Blueprint('coordinates', __name__)
 
 
-@bp.route('/coordinates/name', methods=['GET'])
-def get_coordinates_by_name():
+@bp.route('/coordinates/partial_address', methods=['GET'])
+def get_coordinates_by_partial_address():
     city = sanitize_input_string(request.form['city'])
     state = sanitize_input_string(request.form['state'])
 
@@ -45,5 +45,21 @@ def get_coordinates_by_zipcode():
 
     if geoData is None:
         abort(400, 'Error: Request failed was a zipcode provided?')
+
+    return jsonify(geoData)
+
+
+@bp.route('/coordinates/specified_trail', methods=['GET'])
+def get_coordinates_by_specified_trail():
+    trail = sanitize_input_string(request.form['trail'])
+
+    if not trail:
+        abort(400, 'Please provide the name of a trail.')
+
+    api = Geocode()
+    geoData = api.query_api_for_coordinates_by_name(trail)
+
+    if geoData is None:
+        abort(400, 'Error: Request failed was a city & state provided?')
 
     return jsonify(geoData)

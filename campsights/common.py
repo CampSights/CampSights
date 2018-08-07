@@ -19,6 +19,6 @@ def sanitize_input_string(user_string):
     user_string = user_string.strip('\'')
 
     # Remove special characters(would like an alternative to regex)
-    user_string = re.sub('[^a-zA-Z0-9_ \']', '', user_string)
+    user_string = re.sub('[^a-zA-Z0-9_ \'#-]', '', user_string)
 
     return user_string
