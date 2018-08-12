@@ -3,6 +3,11 @@
 # Please see the file LICENSE in this distribution
 # or license terms.
 
+# This file provides the endpoints that can be utilized when
+# the client requests a list of campgrounds, a list of trails,
+# a specified campground, or a specified trail.
+
+
 from flask import (
     Blueprint, request, url_for, abort, jsonify
 )
@@ -37,6 +42,29 @@ def get_list_of_campgrounds_in_provided_radius():
                   'Was a latitude & longitude provided?')
 
     return campgrounds
+
+
+@bp.route('/destinations/campground', methods=['GET'])
+def get_specified_campground():
+    # TODO: client application will uses requests package
+    # switch back to request.form once implemented.
+
+    campground_name = sanitize_input_string(
+        request.form['campground_name'])
+    state = sanitize_input_string(request.form['state'])
+    if not campground_name:
+        abort(400, 'Error: Missing name of campground to lookup.')
+    if not state:
+        abort(400, 'Error: Missing state in cooridnates.')
+
+    api = Destinations()
+    campground = api.query_api_for_specified_campground(
+        campground_name, state)
+    if campground is None:
+        abort(400, 'Error: Request failed.'
+              'Could not find results for specified campground')
+
+    return jsonify(campground)
 
 
 @bp.route('/destinations/trails', methods=['GET'])
