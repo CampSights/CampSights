@@ -3,15 +3,18 @@
 # Please see the file LICENSE in this distribution
 # or license terms.
 
-import os
-
-from flask import Flask
-
 # This is the application factory funtion. This is where any setup,
 # configuration, and registration will occur. Here, the Flask app
 # is set up to allow for a default development configuration,
 # testing configuration, and custom configuration instances. It
 # also communicates that the campsights directory exists as a package.
+# This function was implemented following the tutorial provided in the
+# Flask docs at http://flask.pocoo.org/docs/1.0/tutorial/factory/
+
+
+import os
+
+from flask import Flask
 
 
 def create_app(test_config=None):

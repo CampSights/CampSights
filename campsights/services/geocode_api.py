@@ -3,12 +3,13 @@
 # Please see the file LICENSE in this distribution
 # or license terms.
 
+# In order to use the radius attribute of the api provided by recreation.gov
+# the latitude and longitude of the location are required. The Geocode module
+# utilizes the google maps geocode library to collect this data.
+
+
 import googlemaps
 from flask import current_app
-
-# In order to use the radius attribute of the api provided by recreation.gov
-# the latitude and longitude of the location are required. The GeoCode module
-# utilized the google maps geocode library to collect this data.
 
 
 class Geocode():

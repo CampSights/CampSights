@@ -3,6 +3,14 @@
 # Please see the file LICENSE in this distribution
 # or license terms.
 
+# This file implements the endpoints that can be utilized when
+# the client needs to make a request with a latitude & longitude
+# filter. Typically, when the client requests a list of campgrounds
+# or trails local to a zipcode or partial address. Each endpoint
+# serves the coordinates as well as the full address of the
+# requested location.
+
+
 from flask import (
     Blueprint, request, url_for, abort, jsonify
 )
