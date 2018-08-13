@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "30f3d16cf2c487583a3a1d33b249d515d0c09da6bd2e967569fd9224b613901e"
+            "sha256": "bfacf3facdac739786b65078ddaf8137fd69706d667ff040e1b5251a0ec8667e"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -22,6 +22,10 @@
             ],
             "index": "pypi",
             "version": "==1.3.5"
+        },
+        "campsights": {
+            "editable": true,
+            "path": "."
         },
         "certifi": {
             "hashes": [
@@ -103,11 +107,11 @@
         },
         "python-dotenv": {
             "hashes": [
-                "sha256:4965ed170bf51c347a89820e8050655e9c25db3837db6602e906b6d850fad85c",
-                "sha256:509736185257111613009974e666568a1b031b028b61b500ef1ab4ee780089d5"
+                "sha256:122290a38ece9fe4f162dc7c95cae3357b983505830a154d3c98ef7f6c6cea77",
+                "sha256:4a205787bc829233de2a823aa328e44fd9996fedb954989a21f1fc67c13d7a77"
             ],
             "index": "pypi",
-            "version": "==0.8.2"
+            "version": "==0.9.1"
         },
         "requests": {
             "hashes": [

@@ -11,37 +11,33 @@
 from flask import (
     Blueprint, request, url_for, abort, jsonify
 )
-from campsights.services.destinations_api import Destinations
-from campsights.common import sanitize_input_string
+import campsights.services
+import common
 
 bp = Blueprint('destinations', __name__)
 
 
 @bp.route('/destinations/campgrounds', methods=['GET'])
 def get_list_of_campgrounds_in_provided_radius():
-    # TODO: client application will uses requests package
-    # switch back to request.form once implemented.
 
-    # coordinates = request.form['coordinates']**
     coordinates = request.json['coordinates']
     if coordinates:
         lat = coordinates['lat']
         lng = coordinates['lng']
-        # radius = request.form['radius']**
         radius = request.json['radius']
         if not lat:
             abort(400, 'Error: Missing latitude in cooridnates.')
         if not lng:
             abort(400, 'Error: Missing longitude in cooridnates.')
 
-        api = Destinations()
+        api = campsights.services.Destinations()
         campgrounds = api.query_api_for_all_campgrounds_in_radius(
-            lat, lng, radius, 10)
+            lat, lng, radius)
         if campgrounds is None:
             abort(400, 'Error: Request failed.'
                   'Was a latitude & longitude provided?')
 
-    return campgrounds
+    return jsonify(campgrounds.json())
 
 
 @bp.route('/destinations/campground', methods=['GET'])
@@ -49,22 +45,22 @@ def get_specified_campground():
     # TODO: client application will uses requests package
     # switch back to request.form once implemented.
 
-    campground_name = sanitize_input_string(
+    campground_name = common.sanitize_input_string(
         request.form['campground_name'])
-    state = sanitize_input_string(request.form['state'])
+    state = common.sanitize_input_string(request.form['state'])
     if not campground_name:
         abort(400, 'Error: Missing name of campground to lookup.')
     if not state:
         abort(400, 'Error: Missing state in cooridnates.')
 
-    api = Destinations()
+    api = campsights.services.Destinations()
     campground = api.query_api_for_specified_campground(
         campground_name, state)
     if campground is None:
         abort(400, 'Error: Request failed.'
               'Could not find results for specified campground')
 
-    return jsonify(campground)
+    return str(campground.json())
 
 
 @bp.route('/destinations/trails', methods=['GET'])
@@ -84,7 +80,7 @@ def get_list_of_trails_in_provided_radius():
         if not lng:
             abort(400, 'Error: Missing longitude in cooridnates.')
 
-        api = Destinations()
+        api = campsights.services.Destinations()
         trails = api.query_api_for_all_trails_in_radius(
             lat, lng, radius)
         if trails is None:
@@ -105,7 +101,7 @@ def get_specified_trail():
         lat = coordinates['lat']
         lng = coordinates['lng']
         # trail_name = request.form['trail_name']**
-        trail_name = sanitize_input_string(request.json['trail_name'])
+        trail_name = common.sanitize_input_string(request.json['trail_name'])
 
         if not lat:
             abort(400, 'Error: Missing latitude in coordinates.')
@@ -114,7 +110,7 @@ def get_specified_trail():
         if not trail_name:
             abort(400, 'Error: Missing name of trail to lookup.')
 
-        api = Destinations()
+        api = campsights.services.Destinations()
         trail = api.query_api_for_specified_trail(lat, lng, trail_name)
         if trail is None:
             abort(400, 'Error: Request failed.'

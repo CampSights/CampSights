@@ -14,16 +14,16 @@
 from flask import (
     Blueprint, request, url_for, abort, jsonify
 )
-from campsights.services.geocode_api import Geocode
-from campsights.common import sanitize_input_string
+import campsights.services
+import common
 
 bp = Blueprint('coordinates', __name__)
 
 
 @bp.route('/coordinates/partial_address', methods=['GET'])
 def get_coordinates_by_partial_address():
-    city = sanitize_input_string(request.form['city'])
-    state = sanitize_input_string(request.form['state'])
+    city = common.sanitize_input_string(request.form['city'])
+    state = common.sanitize_input_string(request.form['state'])
 
     if not city:
         abort(400, 'Please provide a *city* and state.')
@@ -31,7 +31,7 @@ def get_coordinates_by_partial_address():
     if not state:
         abort(400, 'Please provide a city and *state*.')
 
-    api = Geocode()
+    api = campsights.services.Geocode()
     name = "{0}, {1}".format(city, state)
     geoData = api.query_api_for_coordinates_by_name(name)
 
@@ -43,12 +43,12 @@ def get_coordinates_by_partial_address():
 
 @bp.route('/coordinates/zipcode', methods=['GET'])
 def get_coordinates_by_zipcode():
-    zipcode = sanitize_input_string(request.form['zipcode'])
+    zipcode = common.sanitize_input_string(request.form['zipcode'])
 
     if not zipcode:
         abort(400, 'Please provide a zipcode.')
 
-    api = Geocode()
+    api = campsights.services.Geocode()
     geoData = api.query_api_for_coordinates_by_zipcode(zipcode)
 
     if geoData is None:
@@ -59,12 +59,12 @@ def get_coordinates_by_zipcode():
 
 @bp.route('/coordinates/specified_trail', methods=['GET'])
 def get_coordinates_by_specified_trail():
-    trail = sanitize_input_string(request.form['trail'])
+    trail = common.sanitize_input_string(request.form['trail'])
 
     if not trail:
         abort(400, 'Please provide the name of a trail.')
 
-    api = Geocode()
+    api = campsights.services.Geocode()
     geoData = api.query_api_for_coordinates_by_name(trail)
 
     if geoData is None:
