@@ -22,12 +22,14 @@ class Destinations():
 
     # Consumes RIDB api to retrieve campgrounds within a given radius of
     # a latitude & longitude
-    def query_api_for_all_campgrounds_in_radius(self, lat, lng, radius):
+    def query_api_for_all_campgrounds_in_radius(self, lat, lng,
+                                                radius, limit=10):
         if lat and lng:
             payload = {
                 'latitude': lat,
                 'longitude': lng,
                 'radius': radius,
+                'limit': limit,
                 'activity': 'camping',
                 'apikey': self.ridb_key
             }
@@ -55,8 +57,8 @@ class Destinations():
             try:
                 response = requests.get(
                     self.ridb_base_url + 'facilities/', params=payload)
-                response = self.parse_result_for_specified_campground(
-                    campground_name, response)
+                # response = self.parse_result_for_specified_campground(
+                # campground_name, response)
                 return response
             except Exception as e:
                 print('Error: {}'.format(str(e)))
