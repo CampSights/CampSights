@@ -74,7 +74,12 @@ If a suggestion seems appealing to a user, it can be saved to create an adventur
 ### Stretch goals:
 
 ## Built With
-
+* <a href="http://flask.pocoo.org/">Flask</a> <br />
+* <a href="http://docs.python-requests.org/en/master/#">Requests</a> <br />
+* <a href="https://github.com/googlemaps/google-maps-services-python">Python Client for Google Maps Services</a> <br />
+* <a href="https://github.com/theskumar/python-dotenv">python-dotenv </a> <br />
+* <a href="https://www.python.org/dev/peps/pep-0008/">Pep8</a> <br />
+* <a href="https://github.com/hhatto/autopep8">autopep8</a> <br />
 ## Authors
 * <a href="https://github.com/mattCarnovale">Matt Carnovale</a>
 
