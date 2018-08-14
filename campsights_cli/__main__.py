@@ -23,7 +23,8 @@ def validate_number_of_args(args):
 def validate_command_arg(command):
     if command not in ['camp_list', 'get']:
         raise NameError('\nCommand : {} : not recognized. '
-                        'Please choose from: [ camp_list, get ]\n'.format(command))
+                        'Please choose from: '
+                        '[ camp_list, get ]\n'.format(command))
 
 
 def validate_option_arg(command, option):
