@@ -5,3 +5,4 @@
 
 from .common import sanitize_input_string
 from .common import validate_postal_code
+from .common import validate_address_format

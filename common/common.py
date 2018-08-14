@@ -28,13 +28,17 @@ def sanitize_input_string(user_string, from_main=False):
     # Remove special characters(would like an alternative to regex)
     # The regex used here was constructed using https://regex101.com/
     # It matches all the characters not present in the list.
-    user_string = re.sub('[^a-zA-Z0-9 \'#-]', '', user_string)
+    user_string = re.sub('[^a-zA-Z0-9 \'#-,.]', '', user_string)
 
     return user_string
 
+# A feable attempt to ensure that the zipcode entered is at least
+# numerical, 5 digits, or the 9 digit dash-separated version that
+# specifies a geographic segement within a given zipcode area.
+
 
 def validate_postal_code(user_request):
-    bad_zip_message = '\nToo many arguments provided for US ' \
+    bad_zip_message = '\nError: bad entry for ' \
         'zipcode request.\nShould be a 5 digit ' \
         'code or a 5 digit code plus 4 additional' \
         '\ndigits (dash-separated) to identify a ' \
@@ -57,3 +61,25 @@ def validate_postal_code(user_request):
         raise TypeError('{}'.format(bad_zip_message))
 
     return zip_without_chars
+
+# A feable attempt to ensure that the address entered doesn not
+# contain digits and consists of a city & state
+
+
+def validate_address_format(user_request):
+    bad_address_message = '\nError: bad entry for ' \
+        'partial address request.\nPlease provide a city ' \
+        'and state separated by a comma.\n' \
+        '\nex: \nPortland, Or\nPortland, Oregon\n'
+
+    address_just_chars = re.sub('[^a-zA-Z ,]', '', user_request)
+    address_segements = address_just_chars.split(',')
+    address_segements_count = len(address_segements)
+    if address_segements_count != 2:
+        raise TypeError('{}'.format(bad_address_message))
+    if not address_segements[0].strip():
+        raise TypeError('{}'.format(bad_address_message))
+    if not address_segements[1].strip():
+        raise TypeError('{}'.format(bad_address_message))
+
+    return ', '.join(address_segements)
