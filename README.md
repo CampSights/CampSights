@@ -34,6 +34,8 @@ If a suggestion seems appealing to a user, it can be saved to create an adventur
   * <a href="https://ridb.recreation.gov/?action=register">RIDB.Recreation.gov</a>
   * <a href="https://www.hikingproject.com/data">REI Hiking Project</a> <br />
   :bowtie: _Sorry folks, I'll be working on a better way to get around all of these keys moving forward._ :bowtie:
+
+* Create a secret key for you Flask instance. See <a href="http://flask.pocoo.org/docs/1.0/config/#SECRET_KEY">Flask docs</a>.  
   
 * __Optional__
   * Install <a href="https://docs.pipenv.org/install/#installing-pipenv">Pipenv</a>. This is an awesome tool for Python that provides package management similar to what one would expect from node, yarn, or cargo and handles creating a virtualenv for your projects! 
@@ -66,12 +68,92 @@ If a suggestion seems appealing to a user, it can be saved to create an adventur
       * Execute the command `pipenv install -e .` or `pip install -e .`
    
 ### Usage
+#### Start Flask Server
+Working inside the project directory, execute the following: <br />
+```
+export FLASK_APP=campsights
+export FLASK_ENV=development
+flask run
+```
+_For Windows cmd use `set` instead of `export`_ <br />
+_For Windows Powershell use `$env:` instead of `export`_ <br />
 
-## V.1.0 Roadmap
+If the Flask server starts successfully, the output that contains something similar to:<br />
+`* Running on http://127.0.0.1:5000/`
 
-### Planned Features:
+__Keep the Flask Server Running and work in another terminal window during use__<br />
+__To shutdown the Flask Server, use Ctrl + C__
 
-### Stretch goals:
+#### Command Line Interface
+General format:<br />
+`campsights <command> <option> <request_criteria>`
+
+__Note: if using `pipenv`, don't forget to use `pipenv shell` to work in your virtualenv__
+
+##### Commands
+* `camp_list`  -- request list of campgrounds <br />
+   The following options are available: <br />
+   * `--zipcode` or `-z` -- request using zipcode (5 digit or 9 digit dash separated #####-####)
+   * `--address` or `-a` -- request using city & state, comma separated (city, state) <br /> 
+Example usage: <br />
+   ```
+   campgrounds camp_list -z 97201
+   campgrounds camp_list --zipcode 97201-0751
+   campgrounds camp_list -a Portland, Or
+   campgrounds camp_list --address Portland, Oregon
+   ```
+
+#### Endpoints
+`<FLASK HOST:PORT>` is the url or IP address and Port your Flask Server is Running on.<br />
+It should be defined after you ran the `flask run` command. By default, this will be `http://127.0.0.1:5000`.<br />
+You can try out consuming these endpoints with the <a href="https://github.com/curl/curl ">curl</a> command. <br /> 
+
+__Method:__ Get List Of Campgrounds Within Given Radius <br />
+__Required_Args:__ <br />
+Coordinates - 'coordinates': {'lat': # , 'lng': #} <br />
+Radius -  'radius': # <br />
+__Accepted HTTP Method:__ GET <br />
+__Endpoint:__ `<FLASK HOST: PORT>/destinations/campgrounds`<br />
+
+__Method:__ Get Specified Campground <br />
+__Required_Args:__ <br />
+Campground Name - 'campground_name': _String_ <br />
+Two letter State Code -  'state': _String_ <br />
+__Accepted HTTP Method:__ GET <br />
+__Endpoint:__ `<FLASK HOST: PORT>/destinations/campground`<br />
+
+__Method:__ Get List Of Trails Within Given Radius <br />
+__Required_Args:__ <br />
+Coordinates - 'coordinates': {'lat': # , 'lng': #} <br />
+Radius -  'radius': # <br />
+__Accepted HTTP Method:__ GET <br />
+__Endpoint:__ `<FLASK HOST: PORT>/destinations/trails`<br />
+
+__Method:__ Get Specified Trail <br />
+__Required_Args:__ <br />
+Coordinates - 'coordinates': {'lat': # , 'lng': #} <br />
+Trail Name -  'trail_name': _String_ <br />
+__Accepted HTTP Method:__ GET <br />
+__Endpoint:__ `<FLASK HOST: PORT>/destinations/trail`<br />
+
+__Method:__ Get Coordinates By Zipcode <br />
+__Required_Args:__ <br />
+Zipcode -  'zipcode': # <br />
+__Accepted HTTP Method:__ GET <br />
+__Endpoint:__ `<FLASK HOST: PORT>coordinates/zipcode`<br />
+
+__Method:__ Get Coordinates By Partial Address <br />
+__Required_Args:__ <br />
+City -  'city': _String_ <br />
+State -  'state': _String_ <br />
+__Accepted HTTP Method:__ GET <br />
+__Endpoint:__ `<FLASK HOST: PORT>coordinates/partial_address`<br />
+
+__Method:__ Get Coordinates By Specified Trail <br />
+__Required_Args:__ <br />
+Trail -  'trail': _String_ <br />
+__Accepted HTTP Method:__ GET <br />
+__Endpoint:__ `<FLASK HOST: PORT>coordinates/specified_trail`<br />
 
 ## Built With
 * <a href="http://flask.pocoo.org/">Flask</a> <br />
